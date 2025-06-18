@@ -1,8 +1,11 @@
 # Spookifier – HTB Challenge Writeup
 
 **Challenge Name:** Spookifier
+
 **Platform:** Hack The Box (HTB)
+
 **Category:** Web
+
 **Difficulty:** Easy
 
 ---
@@ -45,7 +48,7 @@ Here’s the key issue: `Template(result).render()` is part of the **Mako templa
 
 ---
 
-## 🚨 Exploiting SSTI
+## Exploiting SSTI
 To verify this, we supplied the following payload in the `text` parameter: ``` ${7*7} ```. If the application was secure, this should be displayed as-is. But instead, we received: ``` 49 ```. This confirmed that our input is being **evaluated as a Mako template expression**, and the server is vulnerable to SSTI.
 With SSTI confirmed, the next goal was to find a way to execute system commands. The Mako template engine doesn't provide direct access to Python's built-ins like `__import__`, but we can still access the `os` module via the `self` object:
 
